@@ -28,11 +28,16 @@ class ChainMM {
 
     static void order(int i, int j, int P[][]) {
         if (i == j) {
-            System.out.print("A" + (i + 1));
+            System.out.println(i + "==" + j + "->true");
+            System.out.println("A" + (i + 1));
         } else {
+            System.out.println(i + "==" + j + "->false\n\telse");
+            System.out.println("\tk=P[" + i + "][" + j + "]");
             int k = P[i][j];
-            System.out.print("(");
+            System.out.print("(\n");
+            System.out.println("\torder(" + i + "," + (k - 1) + ")");
             order(i, k - 1, P);
+            System.out.println("\torder(" + k + "," + j + ")");
             order(k, j, P);
             System.out.print(")");
         }
@@ -43,7 +48,7 @@ class ChainMatrix {
     public static void main(String[] args) {
         ChainMM chainMM = new ChainMM();
         // int d[] = { 5, 2, 3, 4, 6, 7, 8 }; // 6개의 행렬 정의-예제 데이터
-        int d[] = { 3, 4, 2, 7, 8, 6, 5 };
+        int d[] = { 2, 4, 3, 5, 9, 6, 4 };
         int n = 6;
         int P[][] = new int[n][n];
         int M[][] = new int[n][n];
