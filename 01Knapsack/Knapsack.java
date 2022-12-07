@@ -4,24 +4,28 @@ public class Knapsack {
     public static int numbest = 0;
     public static int bestset[] = new int[100];
     public static int include[] = new int[100];
-    public int W = 16;
-    public static int w[] = { 0, 2, 5, 10, 5 };
-    public static int p[] = { 0, 40, 30, 50, 10 };
-    public int Weight = 0;
-    public int Profit = 0;
+    // 예제 데이터
+    // public int W = 16;
+    // public static int w[] = { 0, 2, 5, 10, 5 };
+    // public static int p[] = { 0, 40, 30, 50, 10 };
+    // 자작데이터
+    public int W = 18;
+    public static int w[] = { 0, 4, 5, 10, 5 };
+    public static int p[] = { 0, 20, 30, 60, 10 };
 
-    boolean promising(int i) {
+    boolean promising(int i, int profit, int weight, int maxprofit) {
 
         int j, k, totweight;
         float bound;
 
-        if (Weight >= W)
+        if (weight >= W) {
             return false;
+        }
 
         else {
             j = i + 1;
-            bound = Profit;
-            totweight = Weight;
+            bound = profit;
+            totweight = weight;
 
             while ((j <= 4) && ((totweight + w[j]) <= W)) {
                 totweight = totweight + w[j];
@@ -29,7 +33,6 @@ public class Knapsack {
                 j++;
             }
             k = j;
-
             if (k <= 4) {
                 bound = bound + (W - totweight) * (p[k] / w[k]);
             }
@@ -39,9 +42,6 @@ public class Knapsack {
 
     void knapsackBacktracing(int i, int profit, int weight) {
 
-        Weight = weight;
-        Profit = profit;
-
         if ((weight <= W) && (profit > maxprofit)) {
             maxprofit = profit;
             numbest = i;
@@ -50,7 +50,7 @@ public class Knapsack {
             }
         }
 
-        if (promising(i)) {
+        if (promising(i, profit, weight, maxprofit)) {
             include[i + 1] = 1;
             knapsackBacktracing(i + 1, profit + p[i + 1], weight + w[i + 1]);
             include[i + 1] = 0;
@@ -64,7 +64,7 @@ public class Knapsack {
 
         knapsack.knapsackBacktracing(0, 0, 0);
         for (int i = 1; i <= numbest; i++) {
-            System.out.println(bestset[i]);
+            System.out.println(i + ": " + bestset[i]);
         }
         System.out.println("\nmaxprofit=" + maxprofit);
     }
