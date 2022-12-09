@@ -5,13 +5,13 @@ public class Knapsack {
     public static int bestset[] = new int[100];
     public static int include[] = new int[100];
     // 예제 데이터
+    public int W = 16;
+    public static int w[] = { 0, 2, 5, 10, 5 };
+    public static int p[] = { 0, 60, 50, 50, 5 };
+    // 자작데이터
     // public int W = 16;
     // public static int w[] = { 0, 2, 5, 10, 5 };
-    // public static int p[] = { 0, 40, 30, 50, 10 };
-    // 자작데이터
-    public int W = 18;
-    public static int w[] = { 0, 4, 5, 10, 5 };
-    public static int p[] = { 0, 20, 30, 60, 10 };
+    // public static int p[] = { 0, 60, 50, 50, 5 };
 
     boolean promising(int i, int profit, int weight, int maxprofit) {
 
@@ -19,6 +19,9 @@ public class Knapsack {
         float bound;
 
         if (weight >= W) {
+            System.out.println("x");
+            System.out.println("=====================");
+
             return false;
         }
 
@@ -26,6 +29,8 @@ public class Knapsack {
             j = i + 1;
             bound = profit;
             totweight = weight;
+            System.out.println("profit: " + profit);
+            System.out.println("weight: " + weight);
 
             while ((j <= 4) && ((totweight + w[j]) <= W)) {
                 totweight = totweight + w[j];
@@ -36,6 +41,9 @@ public class Knapsack {
             if (k <= 4) {
                 bound = bound + (W - totweight) * (p[k] / w[k]);
             }
+            System.out.println("bound" + bound);
+            System.out.println("=====================");
+
             return (bound > maxprofit);
         }
     }
@@ -48,12 +56,15 @@ public class Knapsack {
             for (int k = 1; k <= i; k++) {
                 bestset[k] = include[k];
             }
+            System.out.println("maxprofit: " + maxprofit);
         }
 
         if (promising(i, profit, weight, maxprofit)) {
             include[i + 1] = 1;
+            System.out.println((i + 1));
             knapsackBacktracing(i + 1, profit + p[i + 1], weight + w[i + 1]);
             include[i + 1] = 0;
+            System.out.println((i + 1));
             knapsackBacktracing(i + 1, profit, weight);
 
         }
